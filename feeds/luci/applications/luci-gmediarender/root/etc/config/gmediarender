@@ -1,0 +1,2 @@
+config gmediarender config
+	option enabled '1'

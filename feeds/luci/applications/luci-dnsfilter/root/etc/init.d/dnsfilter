@@ -1,0 +1,86 @@
+#!/bin/sh /etc/rc.common
+# masterkuo-MOD
+# /init.d/dnsfilter
+START=99
+
+#  Path
+conf_dir="/etc/dnsfilter"
+md5_dir="$conf_dir/md5"
+adb_rule="$conf_dir/conf/adb_rules.txt"
+hosts_rule="$conf_dir/conf/hosts_rules.txt"
+block_rule="$conf_dir/block.txt"
+fix_rule="$conf_dir/fix.txt"
+DNS_rule="$conf_dir/Prevent_DNS_Hijacking.txt"
+white_list="$conf_dir/white_list.txt"
+conf="/etc/config/dnsfilter"
+dns_conf="/etc/dnsmasq.d/dnsfilter.conf"
+
+add_cron() {
+	crontab_conf="/etc/crontabs/root"
+	[ `grep -c 'dnsfilter\|dns update\|dns -update' "$crontab_conf"` -eq 0 ] && [ `uci get dnsfilter.config.autoupdate` -eq 1 ] && {
+		cp -f "$crontab_conf" "/tmp/crontabs.tmp"
+		echo '00 22 * * * screen -S DNS -dm bash dns update 2>/dev/null #自动更新DNS过滤规则' >> "/tmp/crontabs.tmp"
+		sed '/^$/d' "/tmp/crontabs.tmp" > "$crontab_conf"
+		rm -f "/tmp/crontabs.tmp"
+		/etc/init.d/cron restart >> /dev/null 2>&1
+		return 0
+	}
+	[ `grep -c 'dnsfilter\|dns update\|dns -update' "$crontab_conf"` -ne 0 ] && [ `uci get dnsfilter.config.autoupdate` -eq 0 ] && {
+		grep -v 'dnsfilter\|dns update\|dns -update' "$crontab_conf" > "/tmp/crontabs.tmp"
+		sed '/^$/d' "/tmp/crontabs.tmp" > "$crontab_conf"
+		rm -f "/tmp/crontabs.tmp"
+		/etc/init.d/cron restart >> /dev/null 2>&1
+	}
+}
+
+add_proxy() {
+	profile_path="/etc/profile"
+	[ `grep -ciw 'socks_proxy' "$profile_path"` -eq 0 ] && [ `uci get dnsfilter.config.proxy` -eq 1 ] && {
+		cat << EOF >> "$profile_path"
+
+LAN_IP=\$(uci get network.lan.ipaddr) >> /dev/null 2>&1
+[ -n "\$LAN_IP" ] && export socks_proxy="\$LAN_IP:1080"
+EOF
+		return 0
+	}
+	[ `grep -ciw 'socks_proxy' "$profile_path"` -ne 0 ] && [ `uci get dnsfilter.config.proxy` -eq 0 ] && {
+		grep -v 'LAN_IP=\|socks_proxy' "$profile_path" > "/tmp/profile.tmp"
+		sed '/^$/d' "/tmp/profile.tmp" > "$profile_path"
+		rm -f "/tmp/profile.tmp"
+	}
+}
+
+check_md5() {
+	mkdir -p "$md5_dir"
+	flag=0
+	for file_path in $conf $adb_rule $hosts_rule $block_rule $fix_rule $DNS_rule $white_list
+	do
+		file_md5="$md5_dir/`basename $file_path`.md5"
+		md5sum -c "$file_md5" >> /dev/null 2>&1
+		[ $? -ne 0 ] && {
+			md5sum "$file_path" > "$file_md5"
+			flag=1
+		}
+	done
+	return $flag
+}
+
+start() {
+	add_cron
+	add_proxy
+	[ ! -e "$conf_dir" ] && exit 0
+	[ `uci get dnsfilter.config.enabled` -eq 0 ] && {
+		stop
+		exit 0
+	}
+	check_md5
+	[ $? -ne 0 ] && screen -S DNS -dm bash dns update
+}
+
+stop() {
+	[ -f "$dns_conf" ] && screen -S DNS -dm bash dns reset
+}
+
+restart() {
+	start
+}

@@ -1,0 +1,71 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Filtering rules [Enabled]"
+msgstr "过滤规则 [已启用]"
+
+msgid "Filtering rules [disabled]"
+msgstr "过滤规则 [未启用]"
+
+msgid "Configuring DNS Filter"
+msgstr "配置DNS过滤器"
+
+msgid "Basic Settings"
+msgstr "基本设置"
+
+msgid "Manual Update"
+msgstr "手动更新"
+
+msgid "Update filtering rules"
+msgstr "更新过滤规则"
+
+msgid "Enabled dnsfilter"
+msgstr "启用 dnsfilter"
+
+msgid "Enabled AdBlock Subscribe"
+msgstr "启用 AdBlock规则订阅"
+
+msgid "Enabled HOSTS Subscribe"
+msgstr "启用 HOSTS规则订阅"
+
+msgid "Enable automatic updates"
+msgstr "启用 每天自动更新"
+
+msgid "AdBlock list"
+msgstr "AdBlock订阅列表"
+
+msgid "Edit the right side list"
+msgstr "在右侧编辑规则列表"
+
+msgid "Comments use '#'"
+msgstr "注释用“ # ”"
+
+msgid "HOSTS Subscribe List"
+msgstr "HOSTS订阅列表"
+
+msgid "Local filtering rules"
+msgstr "本地过滤规则"
+
+msgid "Local parsing rules"
+msgstr "本地解析规则"
+
+msgid "Local anti-DNS hijacking rules"
+msgstr "本地防DNS劫持规则"
+
+msgid "White lists"
+msgstr "白名单"
+
+msgid "Logs"
+msgstr "程序日志"
+
+msgid "dnsfilter"
+msgstr "dnsfilter"
+
+msgid "Enabled AdBlock Ruls Subscribe"
+msgstr "启用订阅AdBlock规则"
+
+msgid "Use proxy"
+msgstr "使用Shadowsocks代理"
+
+msgid "GFW lists"
+msgstr "GFW lists"

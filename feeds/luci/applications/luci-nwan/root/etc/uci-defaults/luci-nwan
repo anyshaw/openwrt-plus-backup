@@ -1,0 +1,33 @@
+#!/bin/sh 
+
+uci -q batch <<-EOF >/dev/null
+          delete ucitrack.@nwan[-1]
+          add ucitrack nwan
+          set ucitrack.@nwan[-1].init=nwan
+          delete ucitrack.@nwannumset[-1]
+          add ucitrack nwannumset
+          set ucitrack.@nwannumset[-1].init=nwannumset          
+          commit ucitrack
+EOF
+
+	chmod 777 /etc/config/nwan
+	chmod 777 /etc/config/nwannumset
+	chmod 777 /lib/nwan/assingout
+	chmod 777 /lib/nwan/mobile.rsc
+	chmod 777 /lib/nwan/n_lineset
+	chmod 777 /lib/nwan/nwan_numset
+	chmod 777 /lib/nwan/nwan-ping
+	chmod 777 /lib/nwan/other.rsc
+	chmod 777 /lib/nwan/pppoeup
+	chmod 777 /lib/nwan/route
+	chmod 777 /lib/nwan/telecom.rsc
+	chmod 777 /lib/nwan/unicom.rsc
+	chmod 777 /lib/nwan/wireless_set
+	chmod 777 /lib/nwan/onlinecheck
+	chmod 777 /etc/init.d/nwan
+	chmod 777 /etc/init.d/nwannumset
+	/etc/init.d/nwan enable 
+	/etc/init.d/nwannumset enable  
+	rm -f /tmp/luci-nwan
+	rm -f /tmp/luci-indexcache
+exit 0

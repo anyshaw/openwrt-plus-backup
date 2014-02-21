@@ -1,0 +1,180 @@
+#!/bin/bash
+#/sbin/dns
+#masterkuo-MOD
+#说明：
+#1.本脚本依赖dnsmasq服务，旨在使配置过程简化
+#2.对静态广告和手机广告的过滤效果不错，可节省流量和加快页面加载速度
+#3.支持自定义本地 过滤、解析、防劫持规则，支持白名单
+#注:加载的所有规则中，凡是重复的条目最终都会自动滤除，不必担心冗余
+source /etc/profile >> /dev/null 2>&1
+PID='/tmp/run/dnsfilter.pid'
+[ -f "$PID" ] && {
+	kill "`cat $PID`" >> /dev/null 2>&1
+	rm -f "$PID"
+}
+echo "$$" >> "$PID"
+#帮助
+[ "-h" = "$1" ] || [ "-help" = "$1" ] && {
+echo -e "\n 帮助:"
+echo " update             联网更新 网络和本地 所有规则"
+echo " reset              删除 所有 已应用的规则"
+echo -e " 不带任何参数       仅刷新 本地 规则(将删除已应用的网络规则)\n"
+exit 0
+}
+#各配置文件路径
+work_dir="/tmp/dnsfilter"
+conf_dir="/etc/dnsfilter"
+adb_rule="$conf_dir/conf/adb_rules.txt"
+hosts_rule="$conf_dir/conf/hosts_rules.txt"
+block_rule="$conf_dir/block.txt"
+fix_rule="$conf_dir/fix.txt"
+DNS_rule="$conf_dir/Prevent_DNS_Hijacking.txt"
+white_list="$conf_dir/white_list.txt"
+log="$conf_dir/log/dns_update.log"
+dns_conf="/etc/dnsmasq.d/dnsfilter.conf"
+#初始化
+rm -fr "$work_dir"
+mkdir -p "$work_dir"
+mkdir -p "$conf_dir/conf"
+mkdir -p "$conf_dir/log"
+rm -f $log
+echo "###################" >> $log 2>&1
+echo "#$(date +"%Y-%m-%d %H:%M:%S")#" >> $log 2>&1
+echo -e "###################\n" >> $log 2>&1
+###############################################################
+ process()
+ {
+     echo -e " < "$2" > ... ... ... ["$1"]" >> $log 2>&1
+ }
+###############################################################
+cd $work_dir 
+[ "reset" == "$1" ] || [ "-reset" == "$1" ] && {
+	uci set dnsfilter.config.enabled=0
+	uci commit dnsfilter	
+	rm -f $dns_conf
+	/etc/init.d/dnsmasq restart
+	echo -e "\n===========================================" >> $log 2>&1
+	echo -e " \n 已清除所有过滤规则!\n" >> $log 2>&1
+	echo -e "===========================================\n" >> $log 2>&1
+	exit 0
+}
+[ `uci get dnsfilter.config.enabled` -eq 0 ] && {
+	echo -e "\n===========================================" >> $log 2>&1
+	echo -e " \n dnsfilter 已禁用!\n" >> $log 2>&1
+	echo -e "===========================================\n" >> $log 2>&1
+	exit 0
+}
+[ "update" == "$1" ] || [ "-update" == "$1" ] && {
+	echo -e "\n 正在联网更新...\n 可能用时较长,请耐心等待\n 若长时间无响应，请按 \"Ctrl+C\" 退出\n"
+	
+	[ `uci get dnsfilter.config.proxy` -eq 1 ] && [ ! -f '/var/run/ss-local.pid' ] && {
+		echo -e " 注意:本机似乎未运行Shadowsocks程序!\n PS:下载需要运行Shadowsocks程序\n 并设置正确的代理地址和端口，Shaodowsocks端口需要1080\n 否则部分规则可能无法下载\n"	
+	}
+###############################################################
+#下载并处理过滤规则
+failed_count=0
+	#AdBlock
+	[ -f "$adb_rule" ] && [ `uci get dnsfilter.config.adblock` -ne 0 ] && {
+		echo -e "\n===========================================" >> $log 2>&1
+		echo -e "-----------[开始下载AdBlock规则]-----------" >> $log 2>&1
+		echo -e "===========================================" >> $log 2>&1
+		i=1
+		for item in $(cat $adb_rule | sed '/^#/d;/^$/d;s/ //g;s/	//g')
+		do
+			echo -e "\n" >> $log 2>&1
+			process "正在下载" "ADB_Rule - $i"
+			wget "$item" -O "rule.tmp" -Y on --no-check-certificate >> $log 2>&1
+			if [ $? -eq 0 ];then
+				process "下载完成" "ADB_Rule - $i" >> $log 2>&1
+			else 
+				process "下载失败!!!" "ADB_Rule - $i" >> $log 2>&1
+				((failed_count++))
+			fi
+			grep ^.*\|\|[^\*]*\^$ "rule.tmp" | sed -e 's:.*||:address\=\/:' -e 's:\^:/127\.0\.0\.1:' >> adb.rule
+			rm -f rule.tmp
+			echo " ADB Rule < $i >"
+			((i++))
+		done
+	}
+	#Hosts
+	[ -f "$hosts_rule" ] && [ `uci get dnsfilter.config.hosts` -ne 0 ] && {
+		echo -e "\n===========================================" >> $log 2>&1
+		echo -e "-----------[开始下载Hosts规则]-------------" >> $log 2>&1
+		echo -e "===========================================" >> $log 2>&1
+		i=1
+		for item in $(cat $hosts_rule | sed '/^#/d;/^$/d;s/ //g;s/	//g')
+		do
+			echo -e "\n" >> $log 2>&1
+			process "正在下载" "HOSTS_Rule - $i"
+			wget "$item" -O "rule.tmp" -Y on --no-check-certificate >> $log 2>&1
+			if [ $? -eq 0 ];then
+				process "下载完成" "HOSTS_Rule - $i" >> $log 2>&1
+			else 
+				process "下载失败!!!" "HOSTS_Rule - $i" >> $log 2>&1
+				((failed_count++))
+			fi
+			#特殊规则预处理
+			[ -n "`echo $item | grep 'mwsl'`" ] && {
+			redirect_ip="`sed -n '39p' rule.tmp | cut -d' ' -f1`"
+			sed '/^'$redirect_ip'/!d;s/'$redirect_ip'//g;s/ //g' rule.tmp > mwsl.tmp
+			rm -f rule.tmp
+			}
+			[ -n "`echo $item | grep 'hostsx'`" ] && {
+			sed '/^127.0.0.1/!d;s/127.0.0.1//g;s/ //g' rule.tmp > hostsx.tmp
+			rm -f rule.tmp
+			}
+			#转换
+			sed '/#/d;/localhost/d;s/127.0.0.1//g;s/ //g;s/	//g' *.tmp | sed '/^$/d;s/^/address=\/&/g;s/$/&\/127.0.0.1/g' >> hosts.rule
+			rm -f *.tmp
+			echo " HOSTS Rule < $i >"
+			((i++))
+		done
+	}
+}
+echo -e "\n 处理中...\n"
+###############################################################
+echo -e "\n===========================================" >> $log 2>&1
+echo -e "-------------[加载本地规则]----------------" >> $log 2>&1
+echo -e "===========================================\n" >> $log 2>&1
+#加载本地规则
+[ -f $block_rule ] && {
+	cat "$block_rule" | sed '/#/d;s/127.0.0.1//g;s/ //g;s/	//g' | sed '/^$/d;s/^/address=\/&/g;s/$/&\/127.0.0.1/g' > local.rule
+	echo -e "\n" >> local.rule
+	process "加载完成" "本地过滤规则" >> $log 2>&1
+}
+
+[ -f $fix_rule ] && {
+	cat "$fix_rule" | sed '/#/d' "$fix_rule" | sed '/^$/d;s/^/address=\/&/g;s/ /\//' > fix.rule
+	echo -e "\n" >> fix.rule
+	process "加载完成" "本地DNS解析规则" >> $log 2>&1
+}
+#合并规则
+cat *.rule >> dnsfilter.tmp
+rm -f *.rule
+[ -f "$DNS_rule" ] && cat "$DNS_rule" | sed '/#/d;s/ //g;s/	//g' | sed '/^$/d;s/^/bogus-nxdomain=&/g' >> dnsfilter.tmp;process "加载完成" "防DNS劫持规则" >> $log 2>&1
+sort -n dnsfilter.tmp | sort -u > dnsfilter.conf
+rm -f dnsfilter.tmp
+#加载白名单
+[ -f "$white_list" ] && {
+	mv -f dnsfilter.conf dnsfilter.tmp
+	cat "$white_list" | sed '/^#/d;/^$/d;s/ //g;s/	//g' > white_list.tmp
+	grep -v -f white_list.tmp dnsfilter.tmp > dnsfilter.conf
+	rm -f *.tmp
+	process "加载完成" "本地白名单" >> $log 2>&1
+} 
+###############################################################
+#应用规则
+mv -f dnsfilter.conf $dns_conf
+rm -fR $work_dir
+/etc/init.d/dnsmasq restart
+rm -f "$PID"
+echo -e " 详细结果保存在日志: \"$log\" 中\n"
+[ $failed_count -eq 0 ] && {
+	echo -e "\n===========================================" >> $log 2>&1
+	echo -e "\n             规则已成功应用!\n" >> $log 2>&1
+	echo -e "===========================================" >> $log 2>&1
+	exit 0
+}
+echo -e "\n===========================================" >> $log 2>&1
+echo -e "\n        有 $failed_count 个规则列表下载失败!!!\n" >> $log 2>&1
+echo -e "===========================================" >> $log 2>&1

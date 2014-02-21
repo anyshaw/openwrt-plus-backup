@@ -1,0 +1,23 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "cpulimit-ng"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "enable"
+msgstr ""
+
+msgid "exename"
+msgstr ""
+
+msgid "name of the executable program file or path name"
+msgstr ""
+
+msgid "limit"
+msgstr ""
+
+msgid "cpulimit"
+msgstr ""

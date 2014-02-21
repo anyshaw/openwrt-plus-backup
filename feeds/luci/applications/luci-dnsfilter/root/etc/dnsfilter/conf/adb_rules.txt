@@ -1,0 +1,13 @@
+#################
+#AdBlock过滤规则#
+#################
+#不必担心各规则间的重复项，因为所有重复的条目，最终只会保留一个
+
+#只能转换部分ADB规则（对静态广告的过滤效果还不错）
+#################
+#ChinaList Lazy 
+https://adblock-chinalist.googlecode.com/svn/trunk/adblock-lazy.txt
+#EasyList
+https://easylist-downloads.adblockplus.org/easylist.txt
+#EasyPrivacy
+https://easylist-downloads.adblockplus.org/easyprivacy.txt

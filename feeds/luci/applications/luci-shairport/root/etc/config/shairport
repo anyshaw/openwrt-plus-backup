@@ -1,0 +1,2 @@
+config shairport config
+	option enabled '1'

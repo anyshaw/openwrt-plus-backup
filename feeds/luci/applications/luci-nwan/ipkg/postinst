@@ -1,0 +1,9 @@
+#!/bin/sh 
+
+[ -n "" ] || {
+	chmod 777 /etc/init.d/nwan >/dev/null 2>&1
+	chmod 777 /etc/init.d/nwannumset >/dev/null 2>&1
+   /etc/init.d/nwan enable >/dev/null 2>&1
+   /etc/init.d/nwannumset enable  >/dev/null 2>&1	
+	exit 0
+}

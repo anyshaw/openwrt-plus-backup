@@ -1,0 +1,6 @@
+config dnsfilter 'config'
+	option enabled '0'
+	option adblock '1'
+	option hosts '1'
+	option autoupdate '1'
+	option proxy '0'

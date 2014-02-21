@@ -1,0 +1,26 @@
+#!/bin/sh /etc/rc.common
+
+START=95
+
+
+boot () {
+local pppoeupall=$(uci get nwan.@settings[0].pppoeupall) 
+[ "$pppoeupall" = "1" ] &&{
+sleep 120;
+sh /lib/nwan/pppoeup;   
+}
+}
+
+
+start () {
+ mkdir -p /tmp/nwan/
+   sh /lib/nwan/route start 
+
+   
+}
+
+stop () {
+
+  echo "nwan stop"
+}
+

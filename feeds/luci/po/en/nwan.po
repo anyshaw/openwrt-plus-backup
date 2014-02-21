@@ -1,0 +1,308 @@
+#  nwan.po
+#  generated from /tmp/i18n/luasrc/i18n/nwan.en.lua
+
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:1
+#. N-WAN
+msgid "N-WAN"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:2
+#. N-WAN allows for the use of multiple uplinks for load balancing and failover.
+msgid "nwan_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:3
+#. nwan_route_desc
+msgid "nwan_route_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_enable
+msgid "nwan_enable"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_on
+msgid "nwan_on"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_off
+msgid "nwan_off"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_ping_ck
+msgid "nwan_ping_ck"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. force_all_wan_up
+msgid "force_all_wan_up"
+msgstr ""
+
+msgid "force_all_wan_up_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_assingout
+msgid "nwan_assingout"
+msgstr ""
+
+msgid "nwan_assingout_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_debug
+msgid "nwan_debug"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_dl_route_table
+msgid "nwan_dl_route_table"
+msgstr ""
+
+msgid "nwan_dl_route_table_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#.nwan mwanfw desc
+msgid "nwan_mwanfw_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_sleeptime
+msgid "nwan_sleeptime"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_dl_route_table
+msgid "nwan_testip"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. WAN Interfaces
+msgid "nwan_interface"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_isp_name
+msgid "nwan_isp_name"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_isp_mobile
+msgid "nwan_isp_mobile"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_isp_other
+msgid "nwan_isp_other"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_isp_telecom
+msgid "nwan_isp_telecom"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_isp_unicom
+msgid "nwan_isp_unicom"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_route_method
+msgid "nwan_route_method"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_route_method
+msgid "nwan_route_method"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_intelligent_routes
+msgid "nwan_intelligent_routes"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_balance
+msgid "nwan_balance"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_weight
+msgid "nwan_weight"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_uptime
+msgid "nwan_uptime"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. N-WAN ASSIGN OUT Rules
+msgid "nwan_mwanfw"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_src
+msgid "nwan_src"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_dst
+msgid "nwan_dst"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_proto
+msgid "nwan_proto"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_ports
+msgid "nwan_ports"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_proto
+msgid "nwan_proto"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:4
+#. nwan_proto
+msgid "nwan_proto"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_wanrule
+msgid "nwan_wanrule"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_numset_title
+msgid "nwan_numset_title"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_numset_title_dsc
+msgid "nwan_numset_title_desc"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_numset_desc
+msgid "nwan_numset_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_macvlan_numset
+msgid "nwan_macvlan_numset"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. virtual_wan_macvlan
+msgid "virtual_wan_macvlan"
+msgstr ""
+
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_macvlan_num
+msgid "nwan_macvlan_num"
+msgstr ""
+
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_macvlan_num_desc
+msgid "nwan_macvlan_num_desc"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. nwan_enable_macvlan
+msgid "nwan_enable_macvlan"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. menu_set_macvlan
+msgid "menu_set_macvlan"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. wan_start_idx
+msgid "wan_start_idx"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. wan_start_idx_desc
+msgid "wan_start_idx_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. switch_numset
+msgid "switch_numset"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. switch_numset
+msgid "switch_numset_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. switch_enable
+msgid "switch_enable"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. route_modle
+msgid "route_modle"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. route_modle_desc
+msgid "route_modle_desc"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. line_num
+msgid "line_num"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. line_num_desc
+msgid "line_num_desc"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. wireless_sat
+msgid "wireless_sat"
+msgstr ""
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. wireless_sat_desc
+msgid "wireless_sat_desc"
+msgstr ""
+
+
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. wireles_enable
+msgid "wireles_enable"
+msgstr ""
+
+#: /tmp/i18n/luasrc/i18n/nwan.en.lua:26
+#. mode_desc
+msgid "mode_desc"
+msgstr ""

@@ -1,0 +1,14 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Enable"
+msgstr ""
+
+msgid "gmediarender"
+msgstr ""
+
+msgid "gmediarender is not running"
+msgstr ""
+
+msgid "gmediarender is running"
+msgstr ""

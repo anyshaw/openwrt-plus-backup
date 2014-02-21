@@ -1,0 +1,144 @@
+#!/bin/sh
+# syncpppoe up Script VER 0.10b for openwrt  by feixiang<feixiang@openwrt.org.cn>
+
+. $IPKG_INSTROOT/lib/functions.sh
+
+start_pppd() {
+	local cfg="$1"; shift
+
+	# unique link identifier
+	local link="${proto:-ppp}-$cfg"
+
+	local device
+	config_get device "$cfg" device
+
+	local username
+	config_get username "$cfg" username
+
+	local password
+	config_get password "$cfg" password
+
+	local keepalive
+	config_get keepalive "$cfg" keepalive
+
+	local connect
+	config_get connect "$cfg" connect
+
+	local disconnect
+	config_get disconnect "$cfg" disconnect
+
+	local pppd_options
+	config_get pppd_options "$cfg" pppd_options
+
+
+	local interval="${keepalive##*[, ]}"
+	[ "$interval" != "$keepalive" ] || interval=5
+
+	local dns
+	config_get dns "$config" dns
+
+	local proto
+	config_get proto "$cfg" proto
+
+echo "/usr/sbin/pppd "$@" \
+${keepalive:+lcp-echo-interval $interval lcp-echo-failure ${keepalive%%[, ]*}} \
+$demandargs \
+$peerdns \
+$defaultroute \
+${username:+user "$username" password "$password"} \
+ipparam "$cfg" \
+ifname "$link" \
+${connect:+connect "$connect"} \
+${disconnect:+disconnect "$disconnect"} \
+${ipv6} \
+${pppd_options} \
+nodetach &" >> /tmp/pppoeallup
+
+
+}
+
+
+config_wan_load_syncpppoeup() {
+
+	local iface="$1"
+	local config="$1"
+	local cfg="$1"
+
+	local proto
+	config_get proto "$cfg" proto
+	local ifname
+  ifname=$(uci get network.${1}.ifname)
+
+eval "echo $cfg|grep -q wan"
+[ "$?" = 0  -a $proto = "pppoe" ] && {
+
+config_get mtu $cfg mtu
+
+
+mtu=${mtu:-1492}
+start_pppd "$config" \
+plugin rp-pppoe.so syncppp $wan_num \
+mtu $mtu mru $mtu \
+"nic-$ifname" \
+ nopersist 
+}
+}
+
+
+
+kill_pppd()
+{
+local otherpids
+local execute
+otherpids=$(ps -w 2>&1 | grep 'pppd' | grep -v $$ | awk -F " " '{print $1}')
+echo "$otherpids" | while read execute
+do
+kill -9 ${execute}  > /dev/null  2>&1
+done
+}
+
+config_wan_load_ifup(){
+local cfg="$1"
+
+config_get proto "$cfg" proto
+
+eval "echo $cfg|grep -q wan"
+
+# if wan ifdown interface 
+[ "$?" = 0 -a $proto = "pppoe" ] && {
+
+append ifup_all_wan "ifup ${cfg}&"
+echo "wan x start up ${ifup_all_wan}"
+		wan_num=`expr $wan_num + 1`
+}
+
+}
+
+
+
+start_all_pppoeup(){
+#1 kill all wan and pppd session
+	echo "" > /tmp/pppoeallup
+	local ifup_all_wan=""
+	local wan_num=0
+	config_load network
+	config_foreach config_wan_load_ifup interface
+	echo "all wan down command: $ifup_all_wan"
+#	eval "$ifup_all_wan"
+sleep 3
+	kill_pppd  > /dev/null  2>&1
+sleep 1
+	kill_pppd  > /dev/null  2>&1
+sleep $wan_num
+	echo "wan_num=$wan_num"
+
+	config_load network
+	config_foreach config_wan_load_syncpppoeup interface
+
+sleep $wan_num
+	sh /tmp/pppoeallup
+#rm -rf /tmp/pppoeallup
+
+}
+
+start_all_pppoeup

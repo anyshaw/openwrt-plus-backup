@@ -1,0 +1,22 @@
+##########################
+#######本地解析规则#######
+##########################
+#不必担心各规则间的重复项，因为所有重复的条目，最终只会保留一个
+
+#若想将某网站的所有子域名解析到一个IP，则仿造：
+#.google.com 203.208.46.200
+#则所有包含".google.com"的子域名都将解析到 203.208.46.200
+
+#注意：使用 "一个" "空格" 作为分隔符!
+##########################
+#迅雷
+#	1.离线下载（取回本地）
+#gdl.lixian.vip.xunlei.com 125.39.70.242
+#	2.离线客户端接口服务器
+#service.lixian.vip.xunlei.com 123.150.173.243
+#service.lixian.vip.xunlei.com 221.238.24.5
+#	3.高速通道接口服务器
+#service.cdn.vip.xunlei.com 123.150.173.60
+#client.manager.cdn.vip.xunlei.com
+#vdcproxy.gaosu.vip.xunlei.com 123.150.173.14
+#vms.cdn.vip.xunlei.com 123.150.173.63

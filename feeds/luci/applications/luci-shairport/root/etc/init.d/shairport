@@ -1,0 +1,51 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+NAME=shairport
+
+PID_FILE=/var/run/$NAME.pid
+LOG_FILE=/var/log/$NAME.log
+ERR_FILE=/var/log/$NAME.err
+
+handle_airplay() {
+	local config="$1"
+	local custom="$2"
+	local bname
+	local initbuf
+	local port
+	local password
+	local daemonize
+	local pcm
+	local ctl
+	local volume
+
+	config_get bname "$1" bname "shairplay"
+	config_get initbuf "$1" initbuf "220"
+	config_get port "$1" port "5002"
+	config_get password "$1" password
+	config_get_bool daemonize "$1" daemonize 1
+	config_get pcm "$1" pcm "default"
+	config_get ctl "$1" ctl "default"
+	config_get volume "$1" volume "Speaker"
+
+	service_start /usr/bin/$NAME -a "$bname" -b $initbuf -p $port -d -P $PID_FILE -l $LOG_FILE -e $ERR_FILE
+}
+
+start() {
+	config_load shairport
+	local enabled
+	config_get enabled config enabled
+	[ $enabled -eq 0 ] && {
+		stop
+		return 0
+	}
+
+	config_load airplay
+	config_foreach handle_airplay airplay
+}
+
+stop() {
+	# kill -9 `cat $PID_FILE` > /dev/null 2>&1
+	service_stop /usr/bin/$NAME
+	rm -rf $PID_FILE
+}

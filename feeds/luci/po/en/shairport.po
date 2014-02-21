@@ -1,0 +1,14 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Enable"
+msgstr "Enable"
+
+msgid "shairport"
+msgstr "shairport"
+
+msgid "shairport is not running"
+msgstr "shairport is not running"
+
+msgid "shairport is running"
+msgstr "shairport is running"

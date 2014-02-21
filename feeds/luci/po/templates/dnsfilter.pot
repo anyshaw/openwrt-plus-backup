@@ -1,0 +1,71 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Filtering rules [Enabled]"
+msgstr ""
+
+msgid "Filtering rules [disabled]"
+msgstr ""
+
+msgid "Configuring DNS Filter"
+msgstr ""
+
+msgid "Basic Settings"
+msgstr ""
+
+msgid "Manual Update"
+msgstr ""
+
+msgid "Update filtering rules"
+msgstr ""
+
+msgid "Enabled dnsfilter"
+msgstr ""
+
+msgid "Enabled AdBlock Subscribe"
+msgstr ""
+
+msgid "Enabled HOSTS Subscribe"
+msgstr ""
+
+msgid "Enable automatic updates"
+msgstr ""
+
+msgid "AdBlock list"
+msgstr ""
+
+msgid "Edit the right side list"
+msgstr ""
+
+msgid "Comments use '#'"
+msgstr ""
+
+msgid "HOSTS Subscribe List"
+msgstr ""
+
+msgid "Local filtering rules"
+msgstr ""
+
+msgid "Local parsing rules"
+msgstr ""
+
+msgid "Local anti-DNS hijacking rules"
+msgstr ""
+
+msgid "White lists"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+msgid "dnsfilter"
+msgstr ""
+
+msgid "Enabled AdBlock Ruls Subscribe"
+msgstr ""
+
+msgid "Use proxy"
+msgstr ""
+
+msgid "GFW lists"
+msgstr "GFW lists"

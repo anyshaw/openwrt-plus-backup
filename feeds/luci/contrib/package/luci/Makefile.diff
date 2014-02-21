@@ -1,0 +1,54 @@
+--- Makefile	2014-01-10 22:29:22.911756010 +0800
++++ Makefile	2014-01-10 22:30:10.979756900 +0800
+@@ -464,6 +464,51 @@
+ $(eval $(call application,watchcat,LuCI Support for Watchcat,\
+ 	+PACKAGE_luci-app-watchcat:watchcat))
+ 
++$(eval $(call application,aria2,LuCI Support for aria2,\
++	+PACKAGE_luci-app-aria2:aria2 \
++	+PACKAGE_luci-app-aria2:curl \
++	+PACKAGE_luci-app-aria2:wget \
++	+PACKAGE_luci-app-aria2:openssl-util))
++
++$(eval $(call application,shadowsocks,LuCI Support for shadowsocks,\
++	+PACKAGE_luci-app-shadowsocks:shadowsocks-libev \
++	+PACKAGE_luci-app-shadowsocks:kmod-ipt-ipset \
++	+PACKAGE_luci-app-shadowsocks:ipset))
++
++$(eval $(call application,vsftpd,LuCI Support for vsftpd,\
++	+PACKAGE_luci-app-vsftpd:vsftpd))
++
++$(eval $(call application,pdnsd,LuCI Support for pdnsd,\
++	+PACKAGE_luci-app-pdnsd:pdnsd))
++
++$(eval $(call application,redsocks2,LuCI Support for redsocks2,\
++	+PACKAGE_luci-app-redsocks2:redsocks2 \
++	+PACKAGE_luci-app-redsocks2:kmod-ipt-ipset \
++	+PACKAGE_luci-app-redsocks2:ipset))
++
++$(eval $(call application,dnsfilter,DNS-Filter LuCI configuration module,\
++	+PACKAGE_luci-app-dnsfilter:libc \
++	+PACKAGE_luci-app-dnsfilter:bash \
++	+PACKAGE_luci-app-dnsfilter:screen \
++	+PACKAGE_luci-app-dnsfilter:wget))
++
++$(eval $(call application,cpulimit,cpulimit-ng LuCI configuration module,\
++	+PACKAGE_luci-app-cpulimit:cpulimit-ng))
++
++$(eval $(call application,nwan,nwan configuration module,\
++	+PACKAGE_luci-app-nwan:libc \
++	+PACKAGE_luci-app-nwan:ip \
++	+PACKAGE_luci-app-nwan:kmod-macvlan \
++	+PACKAGE_luci-app-nwan:iptables \
++	+PACKAGE_luci-app-nwan:iptables-mod-conntrack-extra \
++	+PACKAGE_luci-app-nwan:iptables-mod-ipopt))
++
++$(eval $(call application,shairport,LuCI Support for shairport,\
++	+PACKAGE_luci-app-shairport:shairport-new))
++
++$(eval $(call application,gmediarender,LuCI Support for gmediarender,\
++	+PACKAGE_luci-app-gmediarender:gmediarender))
++
+ ### Server Gateway Interfaces ###
+ define sgi
+   define Package/luci-sgi-$(1)
