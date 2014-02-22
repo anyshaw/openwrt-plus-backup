@@ -8,26 +8,30 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gst-plugins-base
-PKG_VERSION:=1.0.10
+PKG_VERSION:=1.2.3
 PKG_RELEASE:=1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/gst-plugins-base-$(PKG_VERSION)
 PKG_SOURCE:=gst-plugins-base-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=http://gstreamer.freedesktop.org/src/gst-plugins-base/
-PKG_MD5SUM:=ffbca3265343cd66092b28286199b795
+PKG_MD5SUM:=17aeabfbcd232526f50c9bee375f1b97
 
 PKG_BUILD_DEPENDS:= gstreamer liboil
 PKG_CONFIG_DEPENDS:= \
+	CONFIG_PACKAGE_gst-mod-adder \
 	CONFIG_PACKAGE_gst-mod-alsa \
 	CONFIG_PACKAGE_gst-mod-app \
 	CONFIG_PACKAGE_gst-mod-audioconvert \
 	CONFIG_PACKAGE_gst-mod-audiorate \
 	CONFIG_PACKAGE_gst-mod-audioresample \
 	CONFIG_PACKAGE_gst-mod-audiotestsrc \
+	CONFIG_PACKAGE_gst-mod-encodebin \
 	CONFIG_PACKAGE_gst-mod-gio \
 	CONFIG_PACKAGE_gst-mod-ogg \
+	CONFIG_PACKAGE_gst-mod-playback \
 	CONFIG_PACKAGE_gst-mod-tcp \
-	CONFIG_PACKAGE_gst-mod-theora \
+	CONFIG_PACKAGE_gst-mod-typefindfunctions \
+	CONFIG_PACKAGE_gst-mod-videoconvert \
 	CONFIG_PACKAGE_gst-mod-videotestsrc \
 	CONFIG_PACKAGE_gst-mod-volume \
 	CONFIG_PACKAGE_gst-mod-vorbis \
@@ -75,6 +79,7 @@ CONFIGURE_ARGS += \
 	--disable-debug \
 	--disable-examples \
 	\
+	$(call GST_COND_SELECT,adder) \
 	$(call GST_COND_SELECT,alsa) \
 	--disable-alsa-test \
 	$(call GST_COND_SELECT,app) \
@@ -85,6 +90,7 @@ CONFIGURE_ARGS += \
 	--disable-cdparanoia \
 	--disable-ffmpegcolorspace \
 	--disable-freetypetest \
+	$(call GST_COND_SELECT,encodebin) \
 	$(call GST_COND_SELECT,gio) \
 	--disable-gnome_vfs \
 	--disable-gst_v4l \
@@ -93,10 +99,10 @@ CONFIGURE_ARGS += \
 	--disable-oggtest \
 	--disable-pango \
 	--disable-subparse \
+	$(call GST_COND_SELECT,playback) \
 	$(call GST_COND_SELECT,tcp) \
-	$(call GST_COND_SELECT,theora) \
-	--disable-videorate \
-	--disable-videoscale \
+	$(call GST_COND_SELECT,typefindfunctions) \
+	$(call GST_COND_SELECT,videoconvert) \
 	$(call GST_COND_SELECT,videotestsrc) \
 	$(call GST_COND_SELECT,volume) \
 	$(call GST_COND_SELECT,vorbis) \
@@ -175,6 +181,7 @@ define GstBuildLibrary
   $$(eval $$(call BuildPackage,libgst$(1)))
 endef
 
+$(eval $(call GstBuildLibrary,allocators,Allocators,,))
 $(eval $(call GstBuildLibrary,app,app,,))
 $(eval $(call GstBuildLibrary,audio,audio,tag,))
 $(eval $(call GstBuildLibrary,fft,FFT,,))
@@ -228,10 +235,11 @@ $(eval $(call GstBuildPlugin,audioresample,audio resampling,audio tag,,))
 $(eval $(call GstBuildPlugin,audiotestsrc,audio test,audio tag controller,,))
 $(eval $(call GstBuildPlugin,encodebin,media encoder,pbutils,,))
 $(eval $(call GstBuildPlugin,gio,GIO,,,))
-$(eval $(call GstBuildPlugin,ogg,Ogg,riff tag,,+libogg))
+$(eval $(call GstBuildPlugin,ogg,Ogg,riff tag pbutils video,,+libogg))
 $(eval $(call GstBuildPlugin,playback,playback,video interfaces pbutils,,))
 $(eval $(call GstBuildPlugin,tcp,TCP,,,))
 $(eval $(call GstBuildPlugin,typefindfunctions,'typefind' functions,audio pbutils tag video,,))
+$(eval $(call GstBuildPlugin,videoconvert,Videoconvert,video,,))
 $(eval $(call GstBuildPlugin,videotestsrc,video test,video,,+liboil))
 $(eval $(call GstBuildPlugin,volume,volume,audio controller,,+liboil))
 $(eval $(call GstBuildPlugin,vorbis,Vorbis,audio tag,ogg,+libvorbis))

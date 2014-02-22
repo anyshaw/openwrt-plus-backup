@@ -8,13 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gst-plugins-ugly
-PKG_VERSION:=1.0.10
+PKG_VERSION:=1.2.3
 PKG_RELEASE:=1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/gst-plugins-ugly-$(PKG_VERSION)
 PKG_SOURCE:=gst-plugins-ugly-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=http://gstreamer.freedesktop.org/src/gst-plugins-ugly/
-PKG_MD5SUM:=fbe21d93c314e43c790e0ac96e197905
+PKG_MD5SUM:=7ae60e2f759f58f32af5fcdc3c9193c4
 
 PKG_BUILD_DEPENDS:= gstreamer gst-plugins-base liboil
 PKG_CONFIG_DEPENDS:= \
@@ -22,6 +22,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_gst-mod-lame \
 	CONFIG_PACKAGE_gst-mod-mad \
 	CONFIG_PACKAGE_gst-mod-mpeg2dec \
+	CONFIG_PACKAGE_gst-mod-xingmux \
 
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
@@ -82,6 +83,7 @@ CONFIGURE_ARGS += \
 	--disable-synaesthesia \
 	--disable-twolame \
 	--disable-x264 \
+	$(call GST_COND_SELECT,xingmux) \
 	\
 	--without-libiconv-prefix \
 	--without-libintl-prefix \
