@@ -123,7 +123,11 @@ define Build/InstallDev
 endef
 
 define Package/gstreamer/install
-	/bin/true
+	$(INSTALL_DIR) $(1)/usr/lib/gstreamer-$(GST_VERSION)
+	( cd $(PKG_INSTALL_DIR); $(CP) \
+		./usr/lib/gstreamer-$(GST_VERSION)/gst-plugin-scanner \
+		$(1)/usr/lib/gstreamer-$(GST_VERSION)/ \
+	)
 endef
 
 define Package/gstreamer-utils/install

@@ -143,7 +143,11 @@ endef
 
 
 define Package/gst-plugins-base/install
-	/bin/true
+	$(INSTALL_DIR) $(1)/usr/bin
+	( cd $(PKG_INSTALL_DIR); $(CP) \
+		./usr/bin/* \
+		$(1)/usr/bin/ \
+	)
 endef
 
 
