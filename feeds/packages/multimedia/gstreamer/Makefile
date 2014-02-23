@@ -82,7 +82,7 @@ endef
 GST_VERSION:=1.0
 
 CONFIGURE_ARGS += \
-	--enable-static \
+	--disable-debug \
 	--disable-examples \
 	--disable-tests \
 	--disable-valgrind \
@@ -102,7 +102,7 @@ define Build/InstallDev
 	)
 	$(INSTALL_DIR) $(1)/usr/lib
 	( cd $(PKG_INSTALL_DIR); $(CP) \
-		./usr/lib/libgst*-$(GST_VERSION).{a,la,so*} \
+		./usr/lib/libgst*-$(GST_VERSION).{la,so*} \
 		$(1)/usr/lib/ \
 	)
 	$(INSTALL_DIR) $(1)/usr/lib/gstreamer-$(GST_VERSION)
