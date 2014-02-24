@@ -33,6 +33,9 @@ define Package/gmediarender/description
   from a UPnP media server.
 endef
 
+TARGET_LDFLAGS += \
+	-Wl,-rpath-link=$(STAGING_DIR)/usr/lib
+
 define Build/Configure
 	(cd $(PKG_BUILD_DIR); ./autogen.sh );
 	$(call Build/Configure/Default)
