@@ -32,6 +32,8 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_gst-mod-tcp \
 	CONFIG_PACKAGE_gst-mod-typefindfunctions \
 	CONFIG_PACKAGE_gst-mod-videoconvert \
+	CONFIG_PACKAGE_gst-mod-videorate \
+	CONFIG_PACKAGE_gst-mod-videoscale \
 	CONFIG_PACKAGE_gst-mod-videotestsrc \
 	CONFIG_PACKAGE_gst-mod-volume \
 	CONFIG_PACKAGE_gst-mod-vorbis \
@@ -100,6 +102,8 @@ CONFIGURE_ARGS += \
 	$(call GST_COND_SELECT,tcp) \
 	$(call GST_COND_SELECT,typefindfunctions) \
 	$(call GST_COND_SELECT,videoconvert) \
+	$(call GST_COND_SELECT,videorate) \
+	$(call GST_COND_SELECT,videoscale) \
 	$(call GST_COND_SELECT,videotestsrc) \
 	$(call GST_COND_SELECT,volume) \
 	$(call GST_COND_SELECT,vorbis) \
@@ -237,10 +241,12 @@ $(eval $(call GstBuildPlugin,audiotestsrc,audio test,audio tag controller,,))
 $(eval $(call GstBuildPlugin,encodebin,media encoder,pbutils,,))
 $(eval $(call GstBuildPlugin,gio,GIO,,,))
 $(eval $(call GstBuildPlugin,ogg,Ogg,riff tag pbutils video,,+libogg))
-$(eval $(call GstBuildPlugin,playback,playback,video interfaces pbutils,,))
+$(eval $(call GstBuildPlugin,playback,playback,video pbutils,,))
 $(eval $(call GstBuildPlugin,tcp,TCP,,,))
 $(eval $(call GstBuildPlugin,typefindfunctions,'typefind' functions,audio pbutils tag video,,))
 $(eval $(call GstBuildPlugin,videoconvert,Videoconvert,video,,))
+$(eval $(call GstBuildPlugin,videorate,Videorate,video,,))
+$(eval $(call GstBuildPlugin,videoscale,Videoscale,video,,))
 $(eval $(call GstBuildPlugin,videotestsrc,video test,video,,+liboil))
 $(eval $(call GstBuildPlugin,volume,volume,audio controller,,+liboil))
 $(eval $(call GstBuildPlugin,vorbis,Vorbis,audio tag,ogg,+libvorbis))
